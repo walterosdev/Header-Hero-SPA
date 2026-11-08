@@ -6,11 +6,57 @@ Landing page (sección *hero*) para **GlowQueen**, un spa de belleza y cuidado d
 
 ## 🚀 Cómo visualizarla
 
-### Requisitos
+Hay dos formas: la **rápida**, que solo usa la carpeta `dist/` y no necesita instalar nada, y la de **desarrollo**, con Node.js y Vite.
+
+### ⚡ Opción rápida: usar solo la carpeta `dist/`
+
+La carpeta `dist/` ya contiene la página compilada: el HTML, el CSS de Tailwind generado y todas las imágenes. **No hace falta Node.js ni `npm install`.** Basta con un navegador.
+
+```
+dist/
+├── index.html      ← archivo que se abre
+├── favicon.svg
+├── icons.svg
+└── assets/         ← CSS e imágenes (no cambiar de sitio)
+```
+
+**Método 1 — Abrir directamente el archivo**
+
+1. Descarga o copia **la carpeta `dist/` completa**. No copies solo el `index.html`: necesita la carpeta `assets/` al lado.
+2. Entra en `dist/` y haz **doble clic en `index.html`**, o arrástralo a una ventana del navegador (Chrome, Edge, Firefox…).
+
+Funciona porque el proyecto está configurado con `base: './'` en [`vite.config.ts`](vite.config.ts), y así todas las rutas del build son relativas (`./assets/...`).
+
+**Método 2 — Con un servidor local (recomendado si algo no carga)**
+
+Algunos navegadores bloquean ciertos archivos cuando la página se abre como `file://`. Si ves la página sin estilos o sin imágenes, sírvela con un servidor local:
+
+- **VS Code + Live Server:** abre la carpeta `dist/` en VS Code, haz clic derecho en `index.html` y elige **"Open with Live Server"**.
+- **Python** (suele venir instalado en Linux y macOS):
+  ```bash
+  cd dist
+  python3 -m http.server 8080
+  ```
+  Abre http://localhost:8080
+- **Node.js:**
+  ```bash
+  npx serve dist
+  ```
+
+**Método 3 — Publicarla en internet**
+
+Sube el **contenido** de `dist/` (que `index.html` quede en la raíz) a un hosting estático: [Netlify Drop](https://app.netlify.com/drop) (arrastrar y soltar la carpeta), Vercel, GitHub Pages, etc.
+
+> [!WARNING]
+> No edites a mano los archivos de `dist/`. Se generan automáticamente y **cada `npm run build` los borra y los vuelve a crear**. Los cambios se hacen en `index.html` y `src/`, y después se ejecuta `npm run build`.
+
+### 🛠️ Opción desarrollo: con Node.js y Vite
+
+#### Requisitos
 - [Node.js](https://nodejs.org/) 20 o superior
 - npm
 
-### Instalación y ejecución
+#### Instalación y ejecución
 
 ```bash
 # 1. Instalar dependencias
@@ -22,7 +68,7 @@ npm run dev
 
 Abre en el navegador la URL que muestra la terminal (por defecto http://localhost:5173).
 
-### Build de producción
+#### Build de producción
 
 ```bash
 npm run build     # genera la carpeta dist/
@@ -50,7 +96,8 @@ npm run preview   # sirve dist/ para comprobar el resultado final
 ```
 spa-beauty-hero/
 ├── index.html          # Toda la maquetación de la página
-├── vite.config.ts      # Configuración de Vite + plugin de Tailwind
+├── vite.config.ts      # Configuración de Vite (base './') + plugin de Tailwind
+├── dist/               # Página compilada lista para abrir o publicar (generada con npm run build)
 ├── package.json
 ├── public/             # Archivos estáticos copiados tal cual (favicon)
 │   ├── favicon.svg
